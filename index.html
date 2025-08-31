@@ -1,0 +1,2314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/jpg" href="https://uploads.onecompiler.io/43s6xt6ew/43vb225tj/perfectten_logo.jpg">
+    <title>PERFECT TEN - Modern Fashion</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #000;
+            background-color: #fff;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: #fff;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo img {
+            height: 70px;
+            width: auto;
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: hsl(0, 80%, 45%);
+            display: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #000;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: hsl(0, 80%, 45%);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .search-bar {
+            padding: 0.5rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            width: 200px;
+        }
+
+        .nav-icons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-icon {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 10px;
+            transition: background 0.3s;
+            position: relative;
+        }
+
+        .nav-icon:hover {
+            background: #f5f5f5;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: hsl(0, 80%, 45%);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 80px;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 500px;
+            padding: 2rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .hero-left {
+            flex: 1.618;
+            background: linear-gradient(135deg, hsl(0, 80%, 45%), hsl(0, 70%, 35%));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 2rem;
+        }
+
+        .hero-right {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .hero-top {
+            flex: 1.618;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .hero-top-left {
+            flex: 1;
+            background: #f8f9fa;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .hero-top-right {
+            flex: 1;
+            background: #e9ecef;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .hero-bottom {
+            flex: 1;
+            background: #dee2e6;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            background: hsl(0, 80%, 45%);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background: hsl(0, 70%, 35%);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid hsl(0, 80%, 45%);
+            color: hsl(0, 80%, 45%);
+        }
+
+        .btn-secondary:hover {
+            background: hsl(0, 80%, 45%);
+            color: white;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 4rem 0;
+        }
+
+        .section-title {
+            margin-top: 4rem;
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: hsl(0, 80%, 45%);
+        }
+
+        /* Featured Products */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 250px;
+            background: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #000;
+        }
+
+        .product-price {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: hsl(0, 80%, 45%);
+            margin-bottom: 1rem;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stars {
+            color: #ffd700;
+        }
+
+        /* Categories */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .category-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .category-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .category-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: hsl(0, 80%, 45%);
+        }
+
+        /* Brand Story */
+        .brand-story {
+            background: #f8f9fa;
+            text-align: center;
+        }
+
+        .brand-story p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            line-height: 1.8;
+        }
+
+        /* Footer */
+        .footer {
+            background: hsl(0, 80%, 45%);
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section ul li a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section ul li a:hover {
+            color: #ccc;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid hsl(0, 70%, 35%);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        /* Cart Styles */
+        .cart-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item-image {
+            width: 80px;
+            height: 80px;
+            background: #f5f5f5;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-title {
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+        }
+
+        .cart-item-details {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        .cart-item-price {
+            color: hsl(0, 80%, 45%);
+            font-weight: bold;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0.5rem 0;
+        }
+
+        .quantity-btn {
+            background: hsl(0, 80%, 45%);
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .quantity-input {
+            width: 50px;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 0.25rem;
+        }
+
+        .remove-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .cart-total {
+            text-align: right;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 2px solid hsl(0, 80%, 45%);
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        /* Page Content */
+        .page-content {
+            padding: 2rem 0;
+            min-height: 60vh;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            color: hsl(0, 80%, 45%);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        /* Search Results */
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 1001;
+            display: none;
+        }
+
+        .search-item {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .search-item:hover {
+            background: #f8f9fa;
+        }
+
+        .search-item:last-child {
+            border-bottom: none;
+        }
+
+        .search-item-image {
+            width: 50px;
+            height: 50px;
+            background: #f5f5f5;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .search-item-info {
+            flex: 1;
+        }
+
+        .search-item-name {
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+        }
+
+        .search-item-price {
+            color: #124170;
+            font-weight: bold;
+        }
+
+        .search-container {
+            position: relative;
+        }
+
+        /* Product detail styles */
+        .product-detail {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .product-images {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 400px;
+            background: #f5f5f5;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .thumbnail-images {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .thumbnail {
+            width: 80px;
+            height: 80px;
+            background: #f5f5f5;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .product-details h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #124170;
+        }
+
+        .product-details .price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #124170;
+            margin-bottom: 1rem;
+        }
+
+        .product-options {
+            margin: 2rem 0;
+        }
+
+        .option-group {
+            margin-bottom: 1rem;
+        }
+
+        .option-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        .size-options {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .size-option {
+            padding: 0.5rem 1rem;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .size-option:hover,
+        .size-option.selected {
+            border-color: #124170;
+            background: #124170;
+            color: white;
+        }
+
+        .add-to-cart-section {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin: 2rem 0;
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .product-tabs {
+            margin-top: 3rem;
+        }
+
+        .tab-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab-button {
+            background: none;
+            border: none;
+            padding: 1rem;
+            cursor: pointer;
+            font-size: 1rem;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab-button.active {
+            border-bottom-color: #124170;
+            color: #124170;
+            font-weight: bold;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* FAQ Styles */
+        .faq-item {
+            margin-bottom: 2rem;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            background: #f8f9fa;
+            padding: 1rem;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .faq-answer {
+            padding: 1rem;
+            display: none;
+        }
+
+        /* Size Guide Table */
+        .size-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .size-table th,
+        .size-table td {
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        .size-table th {
+            background: #f8f9fa;
+            font-weight: bold;
+        }
+
+        /* Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .content-card {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 10px;
+        }
+
+        .content-card h3 {
+            color: #124170;
+            margin-bottom: 1rem;
+        }
+
+        /* Two Column Layout */
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* Text Center */
+        .text-center {
+            text-align: center;
+        }
+
+        .max-width-800 {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .search-bar {
+                width: 150px;
+            }
+
+            .hero {
+                display: flex;
+                flex-direction: column;
+                height: auto;
+                gap: 1rem;
+            }
+
+            .hero-left {
+                flex: none;
+                min-height: 200px;
+            }
+
+            .hero-right {
+                flex: none;
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .hero-top {
+                display: flex;
+                gap: 1rem;
+            }
+
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .product-detail {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .add-to-cart-section {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .tab-buttons {
+                flex-wrap: wrap;
+            }
+
+            .two-column {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                height: 400px;
+            }
+
+            .hero-content h1 {
+                font-size: 1.5rem;
+            }
+
+            .hero-content p {
+                font-size: 1rem;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.75rem;
+            }
+
+            .product-card {
+                font-size: 0.9rem;
+            }
+
+            .product-image {
+                height: 180px;
+            }
+
+            .product-info {
+                padding: 1rem;
+            }
+
+            .modal-content {
+                margin: 10% auto;
+                padding: 1rem;
+            }
+        }
+
+        /* Hidden class for page switching */
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="https://uploads.onecompiler.io/43s6xt6ew/43vb225tj/perfectten_logo.jpg" alt="PERFECT TEN Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <div class="logo-text">PERFECT TEN</div>
+            </div>
+            
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#" onclick="showPage('home')">Home</a></li>
+                <li><a href="#" onclick="showPage('men')">Men</a></li>
+                <li><a href="#" onclick="showPage('women')">Women</a></li>
+                <li><a href="#" onclick="showPage('kids')">Kids</a></li>
+                <li><a href="#" onclick="showPage('accessories')">Accessories</a></li>
+            </ul>
+            
+            <div class="nav-right">
+                <div class="search-container">
+                    <input type="text" class="search-bar" id="searchInput" placeholder="Search products..." onkeyup="handleSearch(event)">
+                    <div class="search-results" id="searchResults"></div>
+                </div>
+                <div class="nav-icons">
+                    <button class="nav-icon" onclick="toggleCart()" title="Cart">
+                        🛒
+                        <span class="cart-count" id="cartCount">0</span>
+                    </button>
+                </div>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Home Page -->
+        <div id="homePage" class="page">
+            <!-- Hero Section -->
+            <section class="hero">
+                <div class="hero-left">
+                    <div class="hero-content">
+                        <h1>New Collection 2024</h1>
+                        <p>Discover the latest trends in fashion</p>
+                        <a href="#" class="btn" onclick="showPage('women')">Shop Now</a>
+                    </div>
+                </div>
+                <div class="hero-right">
+                    <div class="hero-top">
+                        <div class="hero-top-left">
+                            <div>
+                                <h3>Premium Quality</h3>
+                                <p>Crafted with care</p>
+                            </div>
+                        </div>
+                        <div class="hero-top-right">
+                            <div>
+                                <h3>Free Shipping</h3>
+                                <p>On orders over $75</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero-bottom">
+                        <div>
+                            <h3>30-Day Returns</h3>
+                            <p>Hassle-free returns</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Featured Products -->
+            <section class="section">
+                <div class="container">
+                    <h2 class="section-title">Featured Products</h2>
+                    <div class="products-grid" id="featuredProducts">
+                        <!-- Products will be loaded here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Categories -->
+            <section class="section">
+                <div class="container">
+                    <h2 class="section-title">Shop by Category</h2>
+                    <div class="categories-grid">
+                        <div class="category-card" onclick="showPage('women')">
+                            <div class="category-icon">👗</div>
+                            <h3 class="category-title">Dresses</h3>
+                            <p>Elegant dresses for every occasion</p>
+                        </div>
+                        <div class="category-card" onclick="showPage('men')">
+                            <div class="category-icon">👔</div>
+                            <h3 class="category-title">Shirts</h3>
+                            <p>Professional and casual shirts</p>
+                        </div>
+                        <div class="category-card" onclick="showPage('accessories')">
+                            <div class="category-icon">👜</div>
+                            <h3 class="category-title">Accessories</h3>
+                            <p>Complete your look with accessories</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Brand Story -->
+            <section class="section brand-story">
+                <div class="container">
+                    <h2 class="section-title">Our Story</h2>
+                    <p>At PERFECT TEN, we believe fashion is a form of self-expression. Since 2020, we've been curating the finest collection of contemporary clothing that combines comfort, style, and sustainability. Our mission is to make high-quality fashion accessible to everyone while maintaining ethical practices throughout our supply chain.</p>
+                    <a href="#" class="btn btn-secondary" onclick="showPage('ourStory')">Learn More</a>
+                </div>
+            </section>
+        </div>
+
+        <!-- Product Pages -->
+        <div id="menPage" class="page hidden">
+            <div class="container">
+                <div class="page-content">
+                    <h1 class="page-title">Men's Collection</h1>
+                    <div class="products-grid" id="menProducts">
+                        <!-- Men's products will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="womenPage" class="page hidden">
+            <div class="container">
+                <div class="page-content">
+                    <h1 class="page-title">Women's Collection</h1>
+                    <div class="products-grid" id="womenProducts">
+                        <!-- Women's products will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="kidsPage" class="page hidden">
+            <div class="container">
+                <div class="page-content">
+                    <h1 class="page-title">Kids Collection</h1>
+                    <div class="products-grid" id="kidsProducts">
+                        <!-- Kids products will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="accessoriesPage" class="page hidden">
+            <div class="container">
+                <div class="page-content">
+                    <h1 class="page-title">Accessories</h1>
+                    <div class="products-grid" id="accessoriesProducts">
+                        <!-- Accessories will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Detail Page -->
+        <div id="productDetailPage" class="page hidden">
+            <div class="container">
+                <div class="page-content">
+                    <div id="productDetailContent">
+                        <!-- Product detail content will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Our Story Page -->
+        <div id="ourStoryPage" class="page hidden">
+            <div class="container">
+                <div class="page-content">
+                    <h1 class="page-title">Our Story</h1>
+                    <div class="max-width-800 text-center">
+                        <p>Founded in 2020, PERFECT TEN emerged from a simple belief: fashion should be accessible, sustainable, and empowering. What started as a small boutique has grown into a global community of fashion enthusiasts who share our values of quality, ethics, and style.</p>
+                        
+                        <h2>Our Journey</h2>
+                        <p>Our founders, Sarah and Michael, noticed a gap in the market for affordable yet high-quality fashion that didn't compromise on ethical standards. They traveled the world, partnering with artisans and manufacturers who shared their vision of responsible fashion.</p>
+                        
+                        <h2>Our Mission</h2>
+                        <p>We're committed to creating beautiful clothing that makes you feel confident while making a positive impact on the world. Every piece in our collection is carefully selected for its quality, style, and the story behind its creation.</p>
+                    </div>
+                    
+                    <div class="content-grid">
+                        <div class="content-card">
+                            <h3>Quality First</h3>
+                            <p>Every piece is carefully crafted with premium materials and attention to detail. We believe in creating clothing that lasts, not just for a season, but for years to come.</p>
+                        </div>
+                        <div class="content-card">
+                            <h3>Ethical Manufacturing</h3>
+                            <p>We work exclusively with manufacturers who provide fair wages, safe working conditions, and respect for workers' rights. Our supply chain is transparent and traceable.</p>
+                        </div>
+                        <div class="content-card">
+                            <h3>Environmental Responsibility</h3>
+                            <p>From sustainable materials to eco-friendly packaging, we're constantly working to reduce our environmental footprint and promote circular fashion.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Careers Page -->
+        <div id="careersPage" class="page hidden">
+            <div class="container">
+                <div class="page-content">
+                    <h1 class="page-title">Careers at PERFECT TEN</h1>
+                    <div class="max-width-800 text-center">
+                        <p>Join our passionate team and help shape the future of sustainable fashion. We're always looking for talented individuals who share our values and want to make a difference in the fashion industry.</p>
+                    </div>
+                    
+                    <div class="content-grid">
+                        <div class="content-card">
+                            <h3>Fashion Designer</h3>
+                            <p><strong>Location:</strong> New York, NY</p>
+                            <p><strong>Type:</strong> Full-time</p>
+                            <p>We're seeking a creative fashion designer to join our design team. You'll be responsible for creating innovative designs that align with our brand values and aesthetic.</p>
+                            <button class="btn">Apply Now</button>
+                        </div>
+                        <div class="content-card">
+                            <h3>Marketing Specialist</h3>
+                            <p><strong>Location:</strong> Remote</p>
+                            <p><strong>Type:</strong> Full-time</p>
+                            <p>Join our marketing team to help spread the word about sustainable fashion. Experience with social media and digital marketing preferred.</p>
+                            <button class="btn">Apply Now</button>
+                        </div>
+                        <div class="content-card">
+                            <h3>Customer Service Representative</h3>
+                            <p><strong>Location:</strong> Los Angeles, CA</p>
+                            <p><strong>Type:</strong> Part-time</p>
+                            <p>Help our customers have the best possible experience with PERFECT TEN. Excellent communication skills and passion for fashion required.</p>
+                            <button class="btn">Apply Now</button>
+                        </div>
+                    </div>
+                    
+                    <div class="section">
+                        <h2>Why Work With Us?</h2>
+                        <div class="content-grid">
+                            <div class="content-card">
+                                <h3>Competitive Benefits</h3>
+                                <p>Health insurance, retirement plans, and generous paid time off</p>
+                            </div>
+                            <div class="content-card">
+                                <h3>Growth Opportunities</h3>
+                                <p>Professional development programs and career advancement paths</p>
+                            </div>
+                            <div class="content-card">
+                                <h3>Flexible Work</h3>
+                                <p>Remote work options and flexible scheduling to support work-life balance</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sustainability Page -->
+        <div id="sustainabilityPage" class="page hidden">
+            <div class="container">
+                <div class="page-content">
+                    <h1 class="page-title">Our Commitment to Sustainability</h1>
+                    <div class="max-width-800 text-center">
+                        <p>Sustainability isn't just a buzzword for us—it's at the core of everything we do. From the materials we choose to the way we package and ship our products, we're committed to minimizing our environmental impact.</p>
+                    </div>
+                    
+                    <div class="content-grid">
+                        <div class="content-card">
+                            <h3>Sustainable Materials</h3>
+                            <p>We prioritize organic cotton, recycled polyester, and other eco-friendly materials. 80% of our collection is made from sustainable fabrics.</p>
+                        </div>
+                        <div class="content-card">
+                            <h3>Ethical Production</h3>
+                            <p>All our manufacturing partners are certified for fair labor practices and environmental standards. We conduct regular audits to ensure compliance.</p>
+                        </div>
+                        <div class="content-card">
+                            <h3>Carbon Neutral Shipping</h3>
+                            <p>We offset 100% of our shipping emissions through verified carbon offset programs and use recyclable packaging materials.</p>
+                        </div>
+                        <div class="content-card">
+                            <h3>Circular Fashion</h3>
+                            <p>Our take-back program allows customers to return worn items for recycling. We also offer repair services to extend product life.</p>
+                        </div>
+                        <div class="content-card">
+                            <h3>Water Conservation</h3>
+                            <p>Our manufacturing processes use 50% less water than industry standards through innovative dyeing and finishing techniques.</p>
+                        </div>
+                        <div class="content-card">
+                            <h3>Transparency</h3>
+                            <p>We publish annual sustainability reports detailing our progress and goals. Transparency builds trust and accountability.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="section text-center">
+                        <h2>Our 2024 Goals</h2>
+                        <div class="max-width-800">
+                            <ul>
+                                <li>Achieve 100% sustainable materials across all product lines</li>
+                                <li>Reduce packaging waste by 30%</li>
+                                <li>Launch our clothing rental program</li>
+                                <li>Partner with 5 new certified sustainable suppliers</li>
+                                <li>Plant 10,000 trees through our reforestation program</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Press Page -->
+        <div id="pressPage" class="page hidden">
+            <div class="container">
+                <div class="page-content">
+                    <h1 class="page-title">Press & Media</h1>
+                    <div class="max-width-800 text-center">
+                        <p>Stay updated with PERFECT TEN's latest news, press releases, and media coverage. For press inquiries, please contact our media team at press@PERFECT TEN.com</p>
+                    </div>
+                    
+                    <div class="section">
+                        <h2>Recent Press Releases</h2>
+                        <div class="content-grid">
+                            <div class="content-card">
+                                <h3>PERFECT TEN Launches Sustainable Collection</h3>
+                                <p><strong>March 15, 2024</strong></p>
+                                <p>PERFECT TEN announces the launch of its most sustainable collection yet, featuring 100% organic and recycled materials across 50 new pieces.</p>
+                                <button class="btn btn-secondary">Read More</button>
+                            </div>
+                            <div class="content-card">
+                                <h3>Partnership with Global Artisans</h3>
+                                <p><strong>February 28, 2024</strong></p>
+                                <p>New collaboration brings traditional craftsmanship to modern fashion, supporting artisan communities worldwide.</p>
+                                <button class="btn btn-secondary">Read More</button>
+                            </div>
+                            <div class="content-card">
+                                <h3>PERFECT TEN Wins Sustainability Award</h3>
+                                <p><strong>January 20, 2024</strong></p>
+                                <p>Recognized by the Fashion Sustainability Council for outstanding commitment to environmental responsibility.</p>
+                                <button class="btn btn-secondary">Read More</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="section">
+                        <h2>Media Coverage</h2>
+                        <div class="content-grid">
+                            <div class="content-card">
+                                <h3>Vogue: "The Future of Sustainable Fashion"</h3>
+                                <p>PERFECT TEN featured as a leading example of how fashion brands can prioritize sustainability without compromising style.</p>
+                            </div>
+                            <div class="content-card">
+                                <h3>Forbes: "Young Entrepreneurs Changing Fashion"</h3>
+                                <p>Our founders discuss their journey and vision for the future of ethical fashion in this exclusive interview.</p>
+                            </div>
+                            <div class="content-card">
+                                <h3>Elle: "Best Sustainable Fashion Brands 2024"</h3>
+                                <p>PERFECT TEN named among the top 10 sustainable fashion brands to watch this year.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="section">
+                        <h2>Press Kit</h2>
+                        <div class="two-column">
+                            <div>
+                                <h3>Download Resources</h3>
+                                <ul>
+                                    <li><a href="#">High-resolution logos</a></li>
+                                    <li><a href="#">Product images</a></li>
+                                    <li><a href="#">Company fact sheet</a></li>
+                                    <li><a href="#">Executive bios</a></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3>Media Contact</h3>
+                                <p><strong>Sarah Johnson</strong><br>
+                                Head of Communications<br>
+                                Email: press@PERFECT TEN.com<br>
+                                Phone: +1 (555) 123-4567</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Size Guide Page -->
+        <div id="sizeGuidePage" class="page hidden">
+            <div class="container">
+                <div class="page-content">
+                    <h1 class="page-title">Size Guide</h1>
+                    <div class="max-width-800 text-center">
+                        <p>Find your perfect fit with our comprehensive size guide. All measurements are in inches. If you're between sizes, we recommend sizing up for a more comfortable fit.</p>
+                    </div>
+                    
+                    <div class="section">
+                        <h2>Women's Sizing</h2>
+                        <table class="size-table">
+                            <thead>
+                                <tr>
+                                    <th>Size</th>
+                                    <th>Bust</th>
+                                    <th>Waist</th>
+                                    <th>Hips</th>
+                                    <th>Length</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>XS</td>
+                                    <td>32-34</td>
+                                    <td>24-26</td>
+                                    <td>34-36</td>
+                                    <td>26</td>
+                                </tr>
+                                <tr>
+                                    <td>S</td>
+                                    <td>34-36</td>
+                                    <td>26-28</td>
+                                    <td>36-38</td>
+                                    <td>27</td>
+                                </tr>
+                                <tr>
+                                    <td>M</td>
+                                    <td>36-38</td>
+                                    <td>28-30</td>
+                                    <td>38-40</td>
+                                    <td>28</td>
+                                </tr>
+                                <tr>
+                                    <td>L</td>
+                                    <td>38-40</td>
+                                    <td>30-32</td>
+                                    <td>40-42</td>
+                                    <td>29</td>
+                                </tr>
+                                <tr>
+                                    <td>XL</td>
+                                    <td>40-42</td>
+                                    <td>32-34</td>
+                                    <td>42-44</td>
+                                    <td>30</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="section">
+                        <h2>Men's Sizing</h2>
+                        <table class="size-table">
+                            <thead>
+                                <tr>
+                                    <th>Size</th>
+                                    <th>Chest</th>
+                                    <th>Waist</th>
+                                    <th>Neck</th>
+                                    <th>Sleeve</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>XS</td>
+                                    <td>34-36</td>
+                                    <td>28-30</td>
+                                    <td>14-14.5</td>
+                                    <td>32-33</td>
+                                </tr>
+                                <tr>
+                                    <td>S</td>
+                                    <td>36-38</td>
+                                    <td>30-32</td>
+                                    <td>15-15.5</td>
+                                    <td>33-34</td>
+                                </tr>
+                                <tr>
+                                    <td>M</td>
+                                    <td>38-40</td>
+                                    <td>32-34</td>
+                                    <td>15.5-16</td>
+                                    <td>34-35</td>
+                                </tr>
+                                <tr>
+                                    <td>L</td>
+                                    <td>40-42</td>
+                                    <td>34-36</td>
+                                    <td>16-16.5</td>
+                                    <td>35-36</td>
+                                </tr>
+                                <tr>
+                                    <td>XL</td>
+                                    <td>42-44</td>
+                                    <td>36-38</td>
+                                    <td>16.5-17</td>
+                                    <td>36-37</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="section">
+                        <h2>Kids Sizing</h2>
+                        <table class="size-table">
+                            <thead>
+                                <tr>
+                                    <th>Age</th>
+                                    <th>Size</th>
+                                    <th>Height</th>
+                                    <th>Chest</th>
+                                    <th>Waist</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>2-3 years</td>
+                                    <td>2T-3T</td>
+                                    <td>33-37</td>
+                                    <td>20-21</td>
+                                    <td>19-20</td>
+                                </tr>
+                                <tr>
+                                    <td>4-5 years</td>
+                                    <td>4T-5T</td>
+                                    <td>38-42</td>
+                                    <td>21-22</td>
+                                    <td>20-21</td>
+                                </tr>
+                                <tr>
+                                    <td>6-7 years</td>
+                                    <td>6-7</td>
+                                    <td>43-47</td>
+                                    <td>22-23</td>
+                                    <td>21-22</td>
+                                </tr>
+                                <tr>
+                                    <td>8-10 years</td>
+                                    <td>8-10</td>
+                                    <td>48-52</td>
+                                    <td>24-26</td>
+                                    <td>22-24</td>
+                                </tr>
+                                <tr>
+                                    <td>11-12 years</td>
+                                    <td>11-12</td>
+                                    <td>53-57</td>
+                                    <td>27-29</td>
+                                    <td>25-27</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="section">
+                        <h2>How to Measure</h2>
+                        <div class="content-grid">
+                            <div class="content-card">
+                                <h3>Chest/Bust</h3>
+                                <p>Measure around the fullest part of your chest/bust, keeping the tape measure level and snug but not tight.</p>
+                            </div>
+                            <div class="content-card">
+                                <h3>Waist</h3>
+                                <p>Measure around your natural waistline, which is typically the narrowest part of your torso.</p>
+                            </div>
+                            <div class="content-card">
+                                <h3>Hips</h3>
+                                <p>Measure around the fullest part of your hips, typically about 8 inches below your waistline.</p>
+                            </div>
+                            <div class="content-card">
+                                <h3>Length</h3>
+                                <p>For tops, measure from the highest point of your shoulder down to where you want the garment to end.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Page -->
+        <div id="contactPage" class="page hidden">
+            <div class="container">
+                <div class="page-content">
+                    <h1 class="page-title">Contact Us</h1>
+                    <div class="two-column">
+                        <div>
+                            <h3>Get in Touch</h3>
+                            <form id="contactForm" onsubmit="submitContactForm(event)">
+                                <div class="form-group">
+                                    <label for="name">Name</label>
+                                    <input type="text" id="name" name="name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" id="email" name="email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="subject">Subject</label>
+                                    <input type="text" id="subject" name="subject" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="message">Message</label>
+                                    <textarea id="message" name="message" required></textarea>
+                                </div>
+                                <button type="submit" class="btn">Send Message</button>
+                            </form>
+                        </div>
+                        <div>
+                            <h3>Contact Information</h3>
+                            <div>
+                                <h4>Address</h4>
+                                <p>123 Fashion Street<br>New York, NY 10001<br>United States</p>
+                            </div>
+                            <div>
+                                <h4>Phone</h4>
+                                <p>+1 (555) 123-4567</p>
+                            </div>
+                            <div>
+                                <h4>Email</h4>
+                                <p>info@PERFECT TEN.com</p>
+                            </div>
+                            <div>
+                                <h4>Business Hours</h4>
+                                <p>Monday - Friday: 9:00 AM - 6:00 PM<br>Saturday: 10:00 AM - 4:00 PM<br>Sunday: Closed</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Page -->
+        <div id="faqPage" class="page hidden">
+            <div class="container">
+                <div class="page-content">
+                    <h1 class="page-title">Frequently Asked Questions</h1>
+                    <div class="max-width-800">
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(this)">
+                                How do I determine my size?
+                            </div>
+                            <div class="faq-answer">
+                                We provide detailed size charts for each product. You can find the size guide by clicking the "Size Guide" link on any product page. We recommend measuring yourself and comparing with our charts for the best fit.
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(this)">
+                                What is your return policy?
+                            </div>
+                            <div class="faq-answer">
+                                We offer a 30-day return policy for all unworn items with original tags. Items must be in original condition. Return shipping is free for exchanges, and we charge a small fee for refunds.
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(this)">
+                                How long does shipping take?
+                            </div>
+                            <div class="faq-answer">
+                                Standard shipping takes 3-5 business days. Express shipping (1-2 business days) is available for an additional fee. International shipping takes 7-14 business days depending on location.
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(this)">
+                                Do you offer international shipping?
+                            </div>
+                            <div class="faq-answer">
+                                Yes, we ship to over 50 countries worldwide. Shipping costs and delivery times vary by location. You can see the exact cost and estimated delivery time at checkout.
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(this)">
+                                How can I track my order?
+                            </div>
+                            <div class="faq-answer">
+                                Once your order ships, you'll receive a tracking number via email. You can use this number to track your package on our website or the carrier's website.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Shipping & Returns Page -->
+        <div id="shippingPage" class="page hidden">
+            <div class="container">
+                <div class="page-content">
+                    <h1 class="page-title">Shipping & Returns</h1>
+                    <div class="max-width-800">
+                        <div>
+                            <h2>Shipping Information</h2>
+                            <h3>Domestic Shipping (US)</h3>
+                            <ul>
+                                <li>Standard Shipping (3-5 business days): $5.99</li>
+                                <li>Express Shipping (1-2 business days): $12.99</li>
+                                <li>Free standard shipping on orders over $75</li>
+                            </ul>
+                            <h3>International Shipping</h3>
+                            <ul>
+                                <li>International Standard (7-14 business days): $15.99</li>
+                                <li>International Express (3-7 business days): $29.99</li>
+                                <li>Customs duties and taxes may apply</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h2>Returns & Exchanges</h2>
+                            <h3>Return Policy</h3>
+                            <ul>
+                                <li>30-day return window from delivery date</li>
+                                <li>Items must be unworn with original tags</li>
+                                <li>Original packaging required</li>
+                                <li>Some items (underwear, swimwear) are final sale</li>
+                            </ul>
+                            <h3>Return Process</h3>
+                            <ol>
+                                <li>Contact customer service to initiate return</li>
+                                <li>Print prepaid return label (provided for exchanges)</li>
+                                <li>Package items securely</li>
+                                <li>Drop off at any authorized shipping location</li>
+                            </ol>
+                            <h3>Refunds</h3>
+                            <p>Refunds are processed within 5-7 business days after we receive your return. Original shipping costs are non-refundable. Return shipping fee of $6.99 applies to refunds (free for exchanges).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Customer Service</h3>
+                    <ul>
+                        <li><a href="#" onclick="showPage('contact')">Contact Us</a></li>
+                        <li><a href="#" onclick="showPage('faq')">FAQ</a></li>
+                        <li><a href="#" onclick="showPage('shipping')">Shipping & Returns</a></li>
+                        <li><a href="#" onclick="showPage('sizeGuide')">Size Guide</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>About PERFECT TEN</h3>
+                    <ul>
+                        <li><a href="#" onclick="showPage('ourStory')">Our Story</a></li>
+                        <li><a href="#" onclick="showPage('careers')">Careers</a></li>
+                        <li><a href="#" onclick="showPage('sustainability')">Sustainability</a></li>
+                        <li><a href="#" onclick="showPage('press')">Press</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Connect</h3>
+                    <ul>
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">Instagram</a></li>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">Pinterest</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 PERFECT TEN. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Modal -->
+    <div id="cartModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="toggleCart()">&times;</span>
+            <h2>Shopping Cart</h2>
+            <div id="cartItems">
+                <p class="text-center">Your cart is empty</p>
+            </div>
+            <div id="cartTotal" class="cart-total hidden">
+                Total: $0.00
+            </div>
+            <div class="text-center">
+                <button class="btn hidden" onclick="proceedToCheckout()" id="checkoutBtn">Proceed to Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div id="checkoutModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeCheckoutModal()">&times;</span>
+            <h2>Checkout Information</h2>
+            <form id="checkoutForm" onsubmit="completeCheckout(event)">
+                <div class="form-group">
+                    <label for="customerName">Full Name</label>
+                    <input type="text" id="customerName" name="customerName" required>
+                </div>
+                <div class="form-group">
+                    <label for="customerAddress">Complete Address</label>
+                    <textarea id="customerAddress" name="customerAddress" required placeholder="Street address, city, state, postal code, country"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="customerPhone">Phone Number</label>
+                    <input type="tel" id="customerPhone" name="customerPhone" required>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn">Continue</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Sample product data with images
+        const products = {
+            featured: [
+                { id: 1, name: "Classic White Shirt", price: 49.99, rating: 4.5, category: "men", image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=300&h=250&fit=crop" },
+                { id: 2, name: "Summer Floral Dress", price: 79.99, rating: 4.8, category: "women", image: "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=300&h=250&fit=crop" },
+                { id: 3, name: "Denim Jacket", price: 89.99, rating: 4.3, category: "unisex", image: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=300&h=250&fit=crop" },
+                { id: 4, name: "Casual Sneakers", price: 69.99, rating: 4.6, category: "accessories", image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=300&h=250&fit=crop" }
+            ],
+            men: [
+                { id: 1, name: "Classic White Shirt", price: 49.99, rating: 4.5, category: "men", image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=300&h=250&fit=crop" },
+                { id: 5, name: "Navy Blazer", price: 129.99, rating: 4.7, category: "men", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=250&fit=crop" },
+                { id: 6, name: "Chino Pants", price: 59.99, rating: 4.4, category: "men", image: "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=300&h=250&fit=crop" },
+                { id: 7, name: "Polo Shirt", price: 39.99, rating: 4.2, category: "men", image: "https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?w=300&h=250&fit=crop" }
+            ],
+            women: [
+                { id: 2, name: "Summer Floral Dress", price: 79.99, rating: 4.8, category: "women", image: "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=300&h=250&fit=crop" },
+                { id: 8, name: "Silk Blouse", price: 69.99, rating: 4.6, category: "women", image: "https://images.unsplash.com/photo-1564257577154-75f0da9b7c21?w=300&h=250&fit=crop" },
+                { id: 9, name: "High-Waist Jeans", price: 89.99, rating: 4.5, category: "women", image: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=300&h=250&fit=crop" },
+                { id: 10, name: "Cardigan Sweater", price: 59.99, rating: 4.3, category: "women", image: "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=300&h=250&fit=crop" }
+            ],
+            kids: [
+                { id: 11, name: "Kids T-Shirt", price: 19.99, rating: 4.4, category: "kids", image: "https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=300&h=250&fit=crop" },
+                { id: 12, name: "Kids Jeans", price: 29.99, rating: 4.2, category: "kids", image: "https://images.unsplash.com/photo-1503944168849-4d4377ead1b4?w=300&h=250&fit=crop" },
+                { id: 13, name: "Kids Dress", price: 34.99, rating: 4.6, category: "kids", image: "https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?w=300&h=250&fit=crop" },
+                { id: 14, name: "Kids Hoodie", price: 39.99, rating: 4.5, category: "kids", image: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=300&h=250&fit=crop" }
+            ],
+            accessories: [
+                { id: 4, name: "Casual Sneakers", price: 69.99, rating: 4.6, category: "accessories", image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=300&h=250&fit=crop" },
+                { id: 17, name: "Leather Boots", price: 149.99, rating: 4.8, category: "accessories", image: "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?w=300&h=250&fit=crop" },
+                { id: 19, name: "Designer Handbag", price: 199.99, rating: 4.9, category: "accessories", image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=300&h=250&fit=crop" },
+                { id: 20, name: "Sunglasses", price: 89.99, rating: 4.5, category: "accessories", image: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=300&h=250&fit=crop" }
+            ]
+        };
+
+        // Shopping cart
+        let cart = [];
+
+        // Search functionality
+        function handleSearch(event) {
+            const query = event.target.value.toLowerCase().trim();
+            const searchResults = document.getElementById('searchResults');
+            
+            if (query.length < 2) {
+                searchResults.style.display = 'none';
+                return;
+            }
+            
+            const allProducts = Object.values(products).flat();
+            const filteredProducts = allProducts.filter(product => 
+                product.name.toLowerCase().includes(query)
+            );
+            
+            if (filteredProducts.length === 0) {
+                searchResults.innerHTML = '<div class="search-item"><div class="search-item-info">No products found</div></div>';
+            } else {
+                searchResults.innerHTML = filteredProducts.slice(0, 5).map(product => `
+                    <div class="search-item" onclick="showProductDetail(${product.id}); hideSearchResults();">
+                        <img src="${product.image}" alt="${product.name}" class="search-item-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="search-item-image" style="display: none;">IMG</div>
+                        <div class="search-item-info">
+                            <div class="search-item-name">${product.name}</div>
+                            <div class="search-item-price">$${product.price}</div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            searchResults.style.display = 'block';
+        }
+
+        function hideSearchResults() {
+            document.getElementById('searchResults').style.display = 'none';
+            document.getElementById('searchInput').value = '';
+        }
+
+        // Hide search results when clicking outside
+        document.addEventListener('click', function(event) {
+            const searchContainer = document.querySelector('.search-container');
+            if (!searchContainer.contains(event.target)) {
+                hideSearchResults();
+            }
+        });
+
+        // Initialize the website
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProducts('featured', 'featuredProducts');
+            loadProducts('men', 'menProducts');
+            loadProducts('women', 'womenProducts');
+            loadProducts('kids', 'kidsProducts');
+            loadProducts('accessories', 'accessoriesProducts');
+        });
+
+        // Load products into grid
+        function loadProducts(category, containerId) {
+            const container = document.getElementById(containerId);
+            const productList = products[category] || [];
+            
+            container.innerHTML = productList.map(product => `
+                <div class="product-card" onclick="showProductDetail(${product.id})">
+                    <img src="${product.image}" alt="${product.name}" class="product-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="product-image" style="display: none;">Product Image</div>
+                    <div class="product-info">
+                        <h3 class="product-title">${product.name}</h3>
+                        <div class="product-rating">
+                            <span class="stars">${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5-Math.floor(product.rating))}</span>
+                            <span>(${product.rating})</span>
+                        </div>
+                        <div class="product-price">$${product.price}</div>
+                        <button class="btn" onclick="event.stopPropagation(); addToCart(${product.id})">Add to Cart</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Show different pages
+        function showPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.add('hidden'));
+            
+            // Show selected page
+            const targetPage = document.getElementById(pageId + 'Page');
+            if (targetPage) {
+                targetPage.classList.remove('hidden');
+            }
+            
+            // Close mobile menu
+            document.getElementById('navMenu').classList.remove('active');
+        }
+
+        // Show product detail
+        function showProductDetail(productId) {
+            const product = findProductById(productId);
+            if (!product) return;
+            
+            const detailContent = document.getElementById('productDetailContent');
+            detailContent.innerHTML = `
+                <div class="product-detail">
+                    <div class="product-images">
+                        <img src="${product.image}" alt="${product.name}" class="main-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="main-image" style="display: none;">Main Product Image</div>
+                        <div class="thumbnail-images">
+                            <img src="${product.image}" alt="${product.name}" class="thumbnail" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="thumbnail" style="display: none;">Thumb 1</div>
+                            <img src="${product.image}" alt="${product.name}" class="thumbnail" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="thumbnail" style="display: none;">Thumb 2</div>
+                            <img src="${product.image}" alt="${product.name}" class="thumbnail" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="thumbnail" style="display: none;">Thumb 3</div>
+                        </div>
+                    </div>
+                    <div class="product-details">
+                        <h1>${product.name}</h1>
+                        <div class="product-rating">
+                            <span class="stars">${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5-Math.floor(product.rating))}</span>
+                            <span>(${product.rating}) • 127 reviews</span>
+                        </div>
+                        <div class="price">$${product.price}</div>
+                        
+                        <div class="product-options">
+                            <div class="option-group">
+                                <label>Size</label>
+                                <div class="size-options">
+                                    <div class="size-option" onclick="selectSize(this)">XS</div>
+                                    <div class="size-option" onclick="selectSize(this)">S</div>
+                                    <div class="size-option selected" onclick="selectSize(this)">M</div>
+                                    <div class="size-option" onclick="selectSize(this)">L</div>
+                                    <div class="size-option" onclick="selectSize(this)">XL</div>
+                                </div>
+                            </div>
+                            <div class="option-group">
+                                <label for="color">Color</label>
+                                <select id="color" class="form-group input">
+                                    <option>Black</option>
+                                    <option>White</option>
+                                    <option>Navy</option>
+                                    <option>Gray</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="add-to-cart-section">
+                            <div class="quantity-selector">
+                                <label>Quantity:</label>
+                                <button class="quantity-btn" onclick="changeQuantity(-1)">-</button>
+                                <input type="number" id="quantity" class="quantity-input" value="1" min="1">
+                                <button class="quantity-btn" onclick="changeQuantity(1)">+</button>
+                            </div>
+                            <button class="btn" onclick="addToCart(${product.id})">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-tabs">
+                    <div class="tab-buttons">
+                        <button class="tab-button active" onclick="showTab('description')">Description</button>
+                        <button class="tab-button" onclick="showTab('sizing')">Sizing Guide</button>
+                        <button class="tab-button" onclick="showTab('care')">Care Instructions</button>
+                        <button class="tab-button" onclick="showTab('reviews')">Reviews</button>
+                    </div>
+                    
+                    <div id="description" class="tab-content active" style="padding: 1.5rem;">
+                        <h3>Product Description</h3>
+                        <p>This premium ${product.name.toLowerCase()} is crafted from high-quality materials for ultimate comfort and style. Perfect for both casual and formal occasions, it features a modern fit that flatters all body types.</p>
+                        <ul>
+                            <li>Premium fabric blend</li>
+                            <li>Modern, comfortable fit</li>
+                            <li>Versatile styling options</li>
+                            <li>Easy care instructions</li>
+                        </ul>
+                    </div>
+                    
+                    <div id="sizing" class="tab-content" style="padding: 1.5rem;">
+                        <h3>Sizing Guide</h3>
+                        <p>Please refer to our size chart to find your perfect fit:</p>
+                        <table class="size-table">
+                            <tr>
+                                <th>Size</th>
+                                <th>Chest (inches)</th>
+                                <th>Waist (inches)</th>
+                                <th>Length (inches)</th>
+                            </tr>
+                            <tr><td>XS</td><td>32-34</td><td>26-28</td><td>26</td></tr>
+                            <tr><td>S</td><td>34-36</td><td>28-30</td><td>27</td></tr>
+                            <tr><td>M</td><td>36-38</td><td>30-32</td><td>28</td></tr>
+                            <tr><td>L</td><td>38-40</td><td>32-34</td><td>29</td></tr>
+                            <tr><td>XL</td><td>40-42</td><td>34-36</td><td>30</td></tr>
+                        </table>
+                    </div>
+                    
+                    <div id="care" class="tab-content" style="padding: 1.5rem;">
+                        <h3>Care Instructions</h3>
+                        <ul>
+                            <li>Machine wash cold with like colors</li>
+                            <li>Use gentle cycle</li>
+                            <li>Do not bleach</li>
+                            <li>Tumble dry low heat</li>
+                            <li>Iron on low temperature if needed</li>
+                            <li>Do not dry clean</li>
+                        </ul>
+                    </div>
+                    
+                    <div id="reviews" class="tab-content" style="padding: 1.5rem;">
+                        <h3>Customer Reviews</h3>
+                        <div>
+                            <div>
+                                <span class="stars">${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5-Math.floor(product.rating))}</span>
+                                <span>${product.rating} out of 5 stars (127 reviews)</span>
+                            </div>
+                        </div>
+                        <div class="content-card">
+                            <div>
+                                <strong>Sarah M.</strong>
+                                <span class="stars">★★★★★</span>
+                            </div>
+                            <p>"Love this ${product.name.toLowerCase()}! The quality is excellent and the fit is perfect. Highly recommend!"</p>
+                        </div>
+                        <div class="content-card">
+                            <div>
+                                <strong>Mike R.</strong>
+                                <span class="stars">★★★★☆</span>
+                            </div>
+                            <p>"Great quality and fast shipping. The size runs slightly large, so consider sizing down."</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h3>Related Products</h3>
+                    <div class="products-grid">
+                        ${getRelatedProducts(product.category, product.id).map(relatedProduct => `
+                            <div class="product-card" onclick="showProductDetail(${relatedProduct.id})">
+                                <img src="${relatedProduct.image}" alt="${relatedProduct.name}" class="product-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <div class="product-image" style="display: none;">Product Image</div>
+                                <div class="product-info">
+                                    <h3 class="product-title">${relatedProduct.name}</h3>
+                                    <div class="product-rating">
+                                        <span class="stars">${'★'.repeat(Math.floor(relatedProduct.rating))}${'☆'.repeat(5-Math.floor(relatedProduct.rating))}</span>
+                                        <span>(${relatedProduct.rating})</span>
+                                    </div>
+                                    <div class="product-price">$${relatedProduct.price}</div>
+                                    <button class="btn" onclick="event.stopPropagation(); addToCart(${relatedProduct.id})">Add to Cart</button>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            
+            showPage('productDetail');
+        }
+
+        // Helper functions
+        function findProductById(id) {
+            for (let category in products) {
+                const product = products[category].find(p => p.id === id);
+                if (product) return product;
+            }
+            return null;
+        }
+
+        function getRelatedProducts(category, excludeId) {
+            const allProducts = Object.values(products).flat();
+            return allProducts.filter(p => p.category === category && p.id !== excludeId).slice(0, 3);
+        }
+
+        function selectSize(element) {
+            document.querySelectorAll('.size-option').forEach(opt => opt.classList.remove('selected'));
+            element.classList.add('selected');
+        }
+
+        function changeQuantity(change) {
+            const quantityInput = document.getElementById('quantity');
+            const currentValue = parseInt(quantityInput.value);
+            const newValue = Math.max(1, currentValue + change);
+            quantityInput.value = newValue;
+        }
+
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        // Cart functionality
+        function addToCart(productId) {
+            const product = findProductById(productId);
+            if (!product) return;
+            
+            // Get selected options from product detail page if available
+            let selectedSize = 'M'; // default
+            let selectedColor = 'Black'; // default
+            let selectedQuantity = 1;
+            
+            // Check if we're on product detail page
+            const sizeOptions = document.querySelectorAll('.size-option.selected');
+            const colorSelect = document.getElementById('color');
+            const quantityInput = document.getElementById('quantity');
+            
+            if (sizeOptions.length > 0) {
+                selectedSize = sizeOptions[0].textContent;
+            }
+            if (colorSelect) {
+                selectedColor = colorSelect.value;
+            }
+            if (quantityInput) {
+                selectedQuantity = parseInt(quantityInput.value) || 1;
+            }
+            
+            // Create unique item key based on product, size, and color
+            const itemKey = `${productId}-${selectedSize}-${selectedColor}`;
+            const existingItem = cart.find(item => item.itemKey === itemKey);
+            
+            if (existingItem) {
+                existingItem.quantity += selectedQuantity;
+            } else {
+                cart.push({ 
+                    ...product, 
+                    itemKey: itemKey,
+                    selectedSize: selectedSize,
+                    selectedColor: selectedColor,
+                    quantity: selectedQuantity 
+                });
+            }
+            
+            updateCartDisplay();
+            updateCartCount();
+            
+            // Show success message with details
+            alert(`${product.name} (${selectedSize}, ${selectedColor}) added to cart!`);
+        }
+
+        function removeFromCart(itemKey) {
+            cart = cart.filter(item => item.itemKey !== itemKey);
+            updateCartDisplay();
+            updateCartCount();
+        }
+
+        function updateCartQuantity(itemKey, newQuantity) {
+            const item = cart.find(item => item.itemKey === itemKey);
+            if (item) {
+                item.quantity = Math.max(1, newQuantity);
+                updateCartDisplay();
+                updateCartCount();
+            }
+        }
+
+        function updateCartDisplay() {
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+            const checkoutBtn = document.getElementById('checkoutBtn');
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p class="text-center">Your cart is empty</p>';
+                cartTotal.classList.add('hidden');
+                checkoutBtn.classList.add('hidden');
+                return;
+            }
+            
+            cartItems.innerHTML = cart.map(item => `
+                <div class="cart-item">
+                    <img src="${item.image}" alt="${item.name}" class="cart-item-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="cart-item-image" style="display: none;">Image</div>
+                    <div class="cart-item-info">
+                        <div class="cart-item-title">${item.name}</div>
+                        <div class="cart-item-details">
+                            <span>Size: ${item.selectedSize}</span> • 
+                            <span>Color: ${item.selectedColor}</span>
+                        </div>
+                        <div class="cart-item-price">$${item.price}</div>
+                        <div class="quantity-controls">
+                            <button class="quantity-btn" onclick="updateCartQuantity('${item.itemKey}', ${item.quantity - 1})">-</button>
+                            <input type="number" class="quantity-input" value="${item.quantity}" onchange="updateCartQuantity('${item.itemKey}', this.value)">
+                            <button class="quantity-btn" onclick="updateCartQuantity('${item.itemKey}', ${item.quantity + 1})">+</button>
+                        </div>
+                    </div>
+                    <button class="remove-btn" onclick="removeFromCart('${item.itemKey}')">Remove</button>
+                </div>
+            `).join('');
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            cartTotal.innerHTML = `Total: $${total.toFixed(2)}`;
+            cartTotal.classList.remove('hidden');
+            checkoutBtn.classList.remove('hidden');
+        }
+
+        function updateCartCount() {
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartCount').textContent = count;
+        }
+
+        function toggleCart() {
+            const modal = document.getElementById('cartModal');
+            modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Checkout functionality
+        function proceedToCheckout() {
+            if (cart.length === 0) return;
+            
+            document.getElementById('cartModal').style.display = 'none';
+            document.getElementById('checkoutModal').style.display = 'block';
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkoutModal').style.display = 'none';
+        }
+
+        function completeCheckout(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('customerName').value;
+            const address = document.getElementById('customerAddress').value;
+            const phone = document.getElementById('customerPhone').value;
+            
+            // Generate cart details for clipboard
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const orderDetails = `
+PERFECT TEN Order Details
+=====================
+
+Customer Information:
+Name: ${name}
+Address: ${address}
+Phone: ${phone}
+
+Order Items:
+${cart.map(item => `• ${item.name} (Size: ${item.selectedSize}, Color: ${item.selectedColor}) - Qty: ${item.quantity} - $${(item.price * item.quantity).toFixed(2)}`).join('\n')}
+
+Total: $${total.toFixed(2)}
+
+Order Date: ${new Date().toLocaleDateString()}
+            `.trim();
+            
+            // Copy to clipboard
+            navigator.clipboard.writeText(orderDetails).then(() => {
+                alert('Order details copied to clipboard! Please launch Messenger to complete your order.');
+                
+                // Open Messenger
+                window.open('https://m.me/jayson.mark.319452', '_blank');
+                
+                // Clear cart and close modal
+                cart = [];
+                updateCartDisplay();
+                updateCartCount();
+                closeCheckoutModal();
+                
+            }).catch(() => {
+                alert('Unable to copy to clipboard. Please manually copy the order details and contact us via Messenger.');
+            });
+        }
+
+        // Mobile menu
+        function toggleMobileMenu() {
+            const navMenu = document.getElementById('navMenu');
+            navMenu.classList.toggle('active');
+        }
+
+        // Form submissions
+        function submitContactForm(event) {
+            event.preventDefault();
+            alert('Thank you for your message! We\'ll get back to you soon.');
+            event.target.reset();
+        }
+
+        // FAQ functionality
+        function toggleFAQ(element) {
+            const answer = element.nextElementSibling;
+            const isOpen = answer.style.display === 'block';
+            
+            // Close all FAQ answers
+            document.querySelectorAll('.faq-answer').forEach(ans => ans.style.display = 'none');
+            
+            // Toggle current answer
+            answer.style.display = isOpen ? 'none' : 'block';
+        }
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            const cartModal = document.getElementById('cartModal');
+            const checkoutModal = document.getElementById('checkoutModal');
+            
+            if (event.target === cartModal) {
+                cartModal.style.display = 'none';
+            }
+            if (event.target === checkoutModal) {
+                checkoutModal.style.display = 'none';
+            }
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'977b4fb792c7bc3f',t:'MTc1NjYzMDU1Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
