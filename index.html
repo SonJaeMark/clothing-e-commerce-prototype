@@ -240,7 +240,7 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 2rem;
+            padding: 0 1rem;
         }
 
         /* Section Styles */
@@ -264,6 +264,7 @@
             margin-bottom: 2rem;
         }
 
+
         .product-card {
             background: white;
             border-radius: 10px;
@@ -271,7 +272,9 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             transition: transform 0.3s;
             cursor: pointer;
+            max-width: 450px;
         }
+
 
         .product-card:hover {
             transform: translateY(-5px);
@@ -279,13 +282,15 @@
 
         .product-image {
             width: 100%;
-            height: 250px;
+            height: 350px;
             background: #f5f5f5;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.2rem;
             color: #666;
+            object-fit: cover;
+            border-radius: 10px 10px 0 0;
         }
 
         .product-info {
@@ -836,6 +841,31 @@
             max-width: 800px;
             margin: 0 auto;
         }
+        
+        .toast{
+          visibility: hidden;
+          min-width: 220px;
+          background-color: #124170;
+          color: #fff;
+          text-align: center;
+          border-radius: 10px;
+          padding: 1rem 2rem;
+          position: fixed;
+          z-index: 3000;
+          left: 50%;
+          bottom: 40px;
+          transform: translateX(-50%);
+          font-size: 1rem;
+          box-shadow: 0 2px 8px rgba(0,0,0,.17);
+          transition: visibility 0s, opacity 0.4s;
+          opacity: 0;
+        }
+        
+        #toast.show {
+            visibility: visible;
+            opacity: 1;
+            transition: opacity 0.4s;
+        }
 
         /* Responsive Design */
         @media (max-width: 768px) {
@@ -905,7 +935,7 @@
 
             .products-grid {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 1rem;
+                gap: 24px;
             }
 
             .categories-grid {
@@ -947,15 +977,18 @@
 
             .products-grid {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 0.75rem;
+                gap: 24px;
             }
 
             .product-card {
-                font-size: 0.9rem;
+                font-size: 0.8rem;
+                width: 180px;
+                min-width: 160px;
+                max-width: 200px;
             }
 
             .product-image {
-                height: 180px;
+                height: 220px;
             }
 
             .product-info {
@@ -1777,41 +1810,71 @@
             </form>
         </div>
     </div>
-
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <span id="toastMessage"></span>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
     <script>
-        // Sample product data with images
-        const products = {
-            featured: [
-                { id: 1, name: "Classic White Shirt", price: 49.99, rating: 4.5, category: "men", image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=300&h=250&fit=crop" },
-                { id: 2, name: "Summer Floral Dress", price: 79.99, rating: 4.8, category: "women", image: "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=300&h=250&fit=crop" },
-                { id: 3, name: "Denim Jacket", price: 89.99, rating: 4.3, category: "unisex", image: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=300&h=250&fit=crop" },
-                { id: 4, name: "Casual Sneakers", price: 69.99, rating: 4.6, category: "accessories", image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=300&h=250&fit=crop" }
-            ],
-            men: [
-                { id: 1, name: "Classic White Shirt", price: 49.99, rating: 4.5, category: "men", image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=300&h=250&fit=crop" },
-                { id: 5, name: "Navy Blazer", price: 129.99, rating: 4.7, category: "men", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=250&fit=crop" },
-                { id: 6, name: "Chino Pants", price: 59.99, rating: 4.4, category: "men", image: "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=300&h=250&fit=crop" },
-                { id: 7, name: "Polo Shirt", price: 39.99, rating: 4.2, category: "men", image: "https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?w=300&h=250&fit=crop" }
-            ],
-            women: [
-                { id: 2, name: "Summer Floral Dress", price: 79.99, rating: 4.8, category: "women", image: "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=300&h=250&fit=crop" },
-                { id: 8, name: "Silk Blouse", price: 69.99, rating: 4.6, category: "women", image: "https://images.unsplash.com/photo-1564257577154-75f0da9b7c21?w=300&h=250&fit=crop" },
-                { id: 9, name: "High-Waist Jeans", price: 89.99, rating: 4.5, category: "women", image: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=300&h=250&fit=crop" },
-                { id: 10, name: "Cardigan Sweater", price: 59.99, rating: 4.3, category: "women", image: "https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=300&h=250&fit=crop" }
-            ],
-            kids: [
-                { id: 11, name: "Kids T-Shirt", price: 19.99, rating: 4.4, category: "kids", image: "https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=300&h=250&fit=crop" },
-                { id: 12, name: "Kids Jeans", price: 29.99, rating: 4.2, category: "kids", image: "https://images.unsplash.com/photo-1503944168849-4d4377ead1b4?w=300&h=250&fit=crop" },
-                { id: 13, name: "Kids Dress", price: 34.99, rating: 4.6, category: "kids", image: "https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?w=300&h=250&fit=crop" },
-                { id: 14, name: "Kids Hoodie", price: 39.99, rating: 4.5, category: "kids", image: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=300&h=250&fit=crop" }
-            ],
-            accessories: [
-                { id: 4, name: "Casual Sneakers", price: 69.99, rating: 4.6, category: "accessories", image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=300&h=250&fit=crop" },
-                { id: 17, name: "Leather Boots", price: 149.99, rating: 4.8, category: "accessories", image: "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?w=300&h=250&fit=crop" },
-                { id: 19, name: "Designer Handbag", price: 199.99, rating: 4.9, category: "accessories", image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=300&h=250&fit=crop" },
-                { id: 20, name: "Sunglasses", price: 89.99, rating: 4.5, category: "accessories", image: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=300&h=250&fit=crop" }
-            ]
-        };
+        /**
+         * Convert Google Drive share link to a thumbnail URL
+         * Example: https://drive.google.com/open?id=FILEID → https://drive.google.com/thumbnail?id=FILEID
+         */
+        function toThumbnail(url) {
+        const idMatch = url.match(/[-\w]{25,}/); // Extract file ID from URL
+        return idMatch ? `https://drive.google.com/thumbnail?id=${idMatch[0]}` : url;
+        }
+
+        /**
+         * Fetch product data from Google Sheets CSV (published link)
+         * @param {string} sheetUrl - The published CSV link from Google Sheets
+         * @returns {Promise<Array>} - Array of product objects
+         */
+        async function fetchProducts(sheetUrl) {
+            return new Promise((resolve, reject) => {
+                Papa.parse(sheetUrl, {
+                download: true,     // Tell PapaParse to download the CSV file
+                header: true,       // Treat first row as headers
+                skipEmptyLines: true,
+                complete: function(results) {
+                    const products = results.data.map(product => {
+                    // Convert image URLs into thumbnails for up to 4 images
+                    for (let j = 1; j <= 4; j++) {
+                        const key = `Item Image ${j}`;
+                        if (product[key]) {
+                        product[key] = toThumbnail(product[key]);
+                        }
+                    }
+                    return product;
+                    });
+                    resolve(products);
+                },
+                error: reject
+                });
+            });
+        }
+
+        /**
+         * Normalize sheet row into consistent product object
+         */
+        function normalizeProduct(row) {
+            return {
+                id: parseInt(row["ID"]),
+                name: row["Item Name"],
+                price: parseFloat(row["Item Price(Numbers only eg. 99.99 or 99)"]) || 0,
+                description: row["Item Description"] || "",
+                colors: row["Color Variation(Separated by comma eg. Black, White, Red etc)"]
+                        ? row["Color Variation(Separated by comma eg. Black, White, Red etc)"].split(",").map(c => c.trim())
+                        : [],
+                sizes: row["Size Variation"]
+                        ? row["Size Variation"].split(",").map(s => s.trim())
+                        : [],
+                placement: row["Item Placement"] ? row["Item Placement"].split(",").map(p => p.trim()) : [],
+                images: [row["Item Image 1"], row["Item Image 2"], row["Item Image 3"], row["Item Image 4"]]
+                        .filter(Boolean),
+                rating: 4.5, // you can later replace with actual rating data if you have it
+            };
+        }
 
         // Shopping cart
         let cart = [];
@@ -1863,32 +1926,38 @@
         });
 
         // Initialize the website
-        document.addEventListener('DOMContentLoaded', function() {
-            loadProducts('featured', 'featuredProducts');
-            loadProducts('men', 'menProducts');
-            loadProducts('women', 'womenProducts');
-            loadProducts('kids', 'kidsProducts');
-            loadProducts('accessories', 'accessoriesProducts');
+        document.addEventListener('DOMContentLoaded', async function() {
+            const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ5VToz7ekh_VI_SoBIU-IkPBvpaV5excimv8za8sQr2U1KLRHHqjAH-2MNxEfhm_ASk2bUJM1ZFazT/pub?gid=254950688&single=true&output=csv";
+            const rows = await fetchProducts(SHEET_URL);
+            const allProducts = rows.map(normalizeProduct);
+
+            // Save globally
+            window.products = allProducts;
+
+            // Load categories dynamically
+            loadProducts("featured", "featuredProducts", allProducts.filter(p => p.placement.includes("Featured")));
+            loadProducts("men", "menProducts", allProducts.filter(p => p.placement.includes("Men")));
+            loadProducts("women", "womenProducts", allProducts.filter(p => p.placement.includes("Women")));
+            loadProducts("kids", "kidsProducts", allProducts.filter(p => p.placement.includes("Kids")));
+            loadProducts("accessories", "accessoriesProducts", allProducts.filter(p => p.placement.includes("Accessories")));
         });
 
+
         // Load products into grid
-        function loadProducts(category, containerId) {
+        function loadProducts(category, containerId, products) {
             const container = document.getElementById(containerId);
-            const productList = products[category] || [];
-            
-            container.innerHTML = productList.map(product => `
+            container.innerHTML = products.map(product => `
                 <div class="product-card" onclick="showProductDetail(${product.id})">
-                    <img src="${product.image}" alt="${product.name}" class="product-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="product-image" style="display: none;">Product Image</div>
-                    <div class="product-info">
-                        <h3 class="product-title">${product.name}</h3>
-                        <div class="product-rating">
-                            <span class="stars">${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5-Math.floor(product.rating))}</span>
-                            <span>(${product.rating})</span>
-                        </div>
-                        <div class="product-price">$${product.price}</div>
-                        <button class="btn" onclick="event.stopPropagation(); addToCart(${product.id})">Add to Cart</button>
+                <img src="${product.images[0] || ''}" alt="${product.name}" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">${product.name}</h3>
+                    <div class="product-rating">
+                    <span class="stars">${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5-Math.floor(product.rating))}</span>
+                    <span>(${product.rating})</span>
                     </div>
+                    <div class="product-price">₱${product.price}</div>
+                    <button class="btn" onclick="event.stopPropagation(); addToCart(${product.id})">Add to Cart</button>
+                </div>
                 </div>
             `).join('');
         }
@@ -1911,173 +1980,137 @@
 
         // Show product detail
         function showProductDetail(productId) {
-            const product = findProductById(productId);
+            const product = findProductById(productId, products);
             if (!product) return;
-            
+
             const detailContent = document.getElementById('productDetailContent');
+
             detailContent.innerHTML = `
                 <div class="product-detail">
-                    <div class="product-images">
-                        <img src="${product.image}" alt="${product.name}" class="main-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                        <div class="main-image" style="display: none;">Main Product Image</div>
-                        <div class="thumbnail-images">
-                            <img src="${product.image}" alt="${product.name}" class="thumbnail" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                            <div class="thumbnail" style="display: none;">Thumb 1</div>
-                            <img src="${product.image}" alt="${product.name}" class="thumbnail" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                            <div class="thumbnail" style="display: none;">Thumb 2</div>
-                            <img src="${product.image}" alt="${product.name}" class="thumbnail" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                            <div class="thumbnail" style="display: none;">Thumb 3</div>
-                        </div>
-                    </div>
-                    <div class="product-details">
-                        <h1>${product.name}</h1>
-                        <div class="product-rating">
-                            <span class="stars">${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5-Math.floor(product.rating))}</span>
-                            <span>(${product.rating}) • 127 reviews</span>
-                        </div>
-                        <div class="price">$${product.price}</div>
-                        
-                        <div class="product-options">
-                            <div class="option-group">
-                                <label>Size</label>
-                                <div class="size-options">
-                                    <div class="size-option" onclick="selectSize(this)">XS</div>
-                                    <div class="size-option" onclick="selectSize(this)">S</div>
-                                    <div class="size-option selected" onclick="selectSize(this)">M</div>
-                                    <div class="size-option" onclick="selectSize(this)">L</div>
-                                    <div class="size-option" onclick="selectSize(this)">XL</div>
-                                </div>
-                            </div>
-                            <div class="option-group">
-                                <label for="color">Color</label>
-                                <select id="color" class="form-group input">
-                                    <option>Black</option>
-                                    <option>White</option>
-                                    <option>Navy</option>
-                                    <option>Gray</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <div class="add-to-cart-section">
-                            <div class="quantity-selector">
-                                <label>Quantity:</label>
-                                <button class="quantity-btn" onclick="changeQuantity(-1)">-</button>
-                                <input type="number" id="quantity" class="quantity-input" value="1" min="1">
-                                <button class="quantity-btn" onclick="changeQuantity(1)">+</button>
-                            </div>
-                            <button class="btn" onclick="addToCart(${product.id})">Add to Cart</button>
-                        </div>
+                <div class="product-images">
+                    <img src="${product.images[0] || ''}" alt="${product.name}" class="main-image"
+                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="main-image" style="display: none;">Main Product Image</div>
+                    <div class="thumbnail-images">
+                    ${product.images.map((img, i) => `
+                        <img src="${img}" alt="${product.name} Thumb ${i+1}" class="thumbnail"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="thumbnail" style="display: none;">Thumb ${i+1}</div>
+                    `).join('')}
                     </div>
                 </div>
-                
+
+                <div class="product-details">
+                    <h1>${product.name}</h1>
+                    <div class="product-rating">
+                    <span class="stars">${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5 - Math.floor(product.rating))}</span>
+                    <span>(${product.rating}) • 127 reviews</span>
+                    </div>
+                    <div class="price">₱${product.price.toFixed(2)}</div>
+
+                    <div class="product-options">
+                    <div class="option-group">
+                        <label>Size</label>
+                        <div class="size-options">
+                        ${product.sizes.map((s, i) =>
+                            `<div class="size-option ${i === 0 ? 'selected' : ''}" onclick="selectSize(this)">${s}</div>`
+                        ).join('')}
+                        </div>
+                    </div>
+                    <div class="option-group">
+                        <label for="color">Color</label>
+                        <select id="color" class="form-group input">
+                        ${product.colors.map(c => `<option>${c}</option>`).join('')}
+                        </select>
+                    </div>
+                    </div>
+
+                    <div class="add-to-cart-section">
+                    <div class="quantity-selector">
+                        <label>Quantity:</label>
+                        <button class="quantity-btn" onclick="changeQuantity(-1)">-</button>
+                        <input type="number" id="quantity" class="quantity-input" value="1" min="1">
+                        <button class="quantity-btn" onclick="changeQuantity(1)">+</button>
+                    </div>
+                    <button class="btn" onclick="addToCart(${product.id})">Add to Cart</button>
+                    </div>
+                </div>
+                </div>
+
                 <div class="product-tabs">
-                    <div class="tab-buttons">
-                        <button class="tab-button active" onclick="showTab('description')">Description</button>
-                        <button class="tab-button" onclick="showTab('sizing')">Sizing Guide</button>
-                        <button class="tab-button" onclick="showTab('care')">Care Instructions</button>
-                        <button class="tab-button" onclick="showTab('reviews')">Reviews</button>
-                    </div>
-                    
-                    <div id="description" class="tab-content active" style="padding: 1.5rem;">
-                        <h3>Product Description</h3>
-                        <p>This premium ${product.name.toLowerCase()} is crafted from high-quality materials for ultimate comfort and style. Perfect for both casual and formal occasions, it features a modern fit that flatters all body types.</p>
-                        <ul>
-                            <li>Premium fabric blend</li>
-                            <li>Modern, comfortable fit</li>
-                            <li>Versatile styling options</li>
-                            <li>Easy care instructions</li>
-                        </ul>
-                    </div>
-                    
-                    <div id="sizing" class="tab-content" style="padding: 1.5rem;">
-                        <h3>Sizing Guide</h3>
-                        <p>Please refer to our size chart to find your perfect fit:</p>
-                        <table class="size-table">
-                            <tr>
-                                <th>Size</th>
-                                <th>Chest (inches)</th>
-                                <th>Waist (inches)</th>
-                                <th>Length (inches)</th>
-                            </tr>
-                            <tr><td>XS</td><td>32-34</td><td>26-28</td><td>26</td></tr>
-                            <tr><td>S</td><td>34-36</td><td>28-30</td><td>27</td></tr>
-                            <tr><td>M</td><td>36-38</td><td>30-32</td><td>28</td></tr>
-                            <tr><td>L</td><td>38-40</td><td>32-34</td><td>29</td></tr>
-                            <tr><td>XL</td><td>40-42</td><td>34-36</td><td>30</td></tr>
-                        </table>
-                    </div>
-                    
-                    <div id="care" class="tab-content" style="padding: 1.5rem;">
-                        <h3>Care Instructions</h3>
-                        <ul>
-                            <li>Machine wash cold with like colors</li>
-                            <li>Use gentle cycle</li>
-                            <li>Do not bleach</li>
-                            <li>Tumble dry low heat</li>
-                            <li>Iron on low temperature if needed</li>
-                            <li>Do not dry clean</li>
-                        </ul>
-                    </div>
-                    
-                    <div id="reviews" class="tab-content" style="padding: 1.5rem;">
-                        <h3>Customer Reviews</h3>
-                        <div>
-                            <div>
-                                <span class="stars">${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5-Math.floor(product.rating))}</span>
-                                <span>${product.rating} out of 5 stars (127 reviews)</span>
-                            </div>
-                        </div>
-                        <div class="content-card">
-                            <div>
-                                <strong>Sarah M.</strong>
-                                <span class="stars">★★★★★</span>
-                            </div>
-                            <p>"Love this ${product.name.toLowerCase()}! The quality is excellent and the fit is perfect. Highly recommend!"</p>
-                        </div>
-                        <div class="content-card">
-                            <div>
-                                <strong>Mike R.</strong>
-                                <span class="stars">★★★★☆</span>
-                            </div>
-                            <p>"Great quality and fast shipping. The size runs slightly large, so consider sizing down."</p>
-                        </div>
+                <div class="tab-buttons">
+                    <button class="tab-button active" onclick="showTab('description')">Description</button>
+                    <button class="tab-button" onclick="showTab('sizing')">Sizing Guide</button>
+                    <button class="tab-button" onclick="showTab('care')">Care Instructions</button>
+                    <button class="tab-button" onclick="showTab('reviews')">Reviews</button>
+                </div>
+
+                <div id="description" class="tab-content active" style="padding: 1.5rem;">
+                    <h3>Product Description</h3>
+                    <p>${product.description}</p>
+                </div>
+
+                <div id="sizing" class="tab-content" style="padding: 1.5rem;">
+                    <h3>Sizing Guide</h3>
+                    ${product.sizes.length
+                    ? `<p>Available sizes: ${product.sizes.join(', ')}</p>`
+                    : `<p>No sizing information available.</p>`}
+                </div>
+
+                <div id="care" class="tab-content" style="padding: 1.5rem;">
+                    <h3>Care Instructions</h3>
+                    <ul>
+                    <li>Machine wash cold with like colors</li>
+                    <li>Use gentle cycle</li>
+                    <li>Do not bleach</li>
+                    <li>Tumble dry low heat</li>
+                    <li>Iron on low temperature if needed</li>
+                    <li>Do not dry clean</li>
+                    </ul>
+                </div>
+
+                <div id="reviews" class="tab-content" style="padding: 1.5rem;">
+                    <h3>Customer Reviews</h3>
+                    <div>
+                    <span class="stars">${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5 - Math.floor(product.rating))}</span>
+                    <span>${product.rating} out of 5 stars (127 reviews)</span>
                     </div>
                 </div>
-                
+                </div>
+
                 <div class="section">
-                    <h3>Related Products</h3>
-                    <div class="products-grid">
-                        ${getRelatedProducts(product.category, product.id).map(relatedProduct => `
-                            <div class="product-card" onclick="showProductDetail(${relatedProduct.id})">
-                                <img src="${relatedProduct.image}" alt="${relatedProduct.name}" class="product-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                                <div class="product-image" style="display: none;">Product Image</div>
-                                <div class="product-info">
-                                    <h3 class="product-title">${relatedProduct.name}</h3>
-                                    <div class="product-rating">
-                                        <span class="stars">${'★'.repeat(Math.floor(relatedProduct.rating))}${'☆'.repeat(5-Math.floor(relatedProduct.rating))}</span>
-                                        <span>(${relatedProduct.rating})</span>
-                                    </div>
-                                    <div class="product-price">$${relatedProduct.price}</div>
-                                    <button class="btn" onclick="event.stopPropagation(); addToCart(${relatedProduct.id})">Add to Cart</button>
-                                </div>
-                            </div>
-                        `).join('')}
+                <h3>Related Products</h3>
+                <div class="products-grid">
+                    ${getRelatedProducts(product.category, product.id).map(relatedProduct => `
+                    <div class="product-card" onclick="showProductDetail(${relatedProduct.id})">
+                        <img src="${relatedProduct.images[0] || ''}" alt="${relatedProduct.name}" class="product-image"
+                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="product-image" style="display: none;">Product Image</div>
+                        <div class="product-info">
+                        <h3 class="product-title">${relatedProduct.name}</h3>
+                        <div class="product-rating">
+                            <span class="stars">${'★'.repeat(Math.floor(relatedProduct.rating))}${'☆'.repeat(5 - Math.floor(relatedProduct.rating))}</span>
+                            <span>(${relatedProduct.rating})</span>
+                        </div>
+                        <div class="product-price">₱${relatedProduct.price.toFixed(2)}</div>
+                        <button class="btn" onclick="event.stopPropagation(); addToCart(${relatedProduct.id})">Add to Cart</button>
+                        </div>
                     </div>
+                    `).join('')}
+                </div>
                 </div>
             `;
-            
+
             showPage('productDetail');
-        }
+            }
+
 
         // Helper functions
-        function findProductById(id) {
-            for (let category in products) {
-                const product = products[category].find(p => p.id === id);
-                if (product) return product;
-            }
-            return null;
+        // Use the raw array of products
+        function findProductById(id, products) {
+            return products.find(p => p.id === id) || null;
         }
+
 
         function getRelatedProducts(category, excludeId) {
             const allProducts = Object.values(products).flat();
@@ -2106,51 +2139,52 @@
 
         // Cart functionality
         function addToCart(productId) {
-            const product = findProductById(productId);
-            if (!product) return;
-            
-            // Get selected options from product detail page if available
-            let selectedSize = 'M'; // default
-            let selectedColor = 'Black'; // default
-            let selectedQuantity = 1;
-            
-            // Check if we're on product detail page
-            const sizeOptions = document.querySelectorAll('.size-option.selected');
-            const colorSelect = document.getElementById('color');
-            const quantityInput = document.getElementById('quantity');
-            
-            if (sizeOptions.length > 0) {
-                selectedSize = sizeOptions[0].textContent;
-            }
-            if (colorSelect) {
-                selectedColor = colorSelect.value;
-            }
-            if (quantityInput) {
-                selectedQuantity = parseInt(quantityInput.value) || 1;
-            }
-            
-            // Create unique item key based on product, size, and color
-            const itemKey = `${productId}-${selectedSize}-${selectedColor}`;
-            const existingItem = cart.find(item => item.itemKey === itemKey);
-            
-            if (existingItem) {
-                existingItem.quantity += selectedQuantity;
-            } else {
-                cart.push({ 
-                    ...product, 
-                    itemKey: itemKey,
-                    selectedSize: selectedSize,
-                    selectedColor: selectedColor,
-                    quantity: selectedQuantity 
-                });
-            }
-            
-            updateCartDisplay();
-            updateCartCount();
-            
-            // Show success message with details
-            alert(`${product.name} (${selectedSize}, ${selectedColor}) added to cart!`);
-        }
+          const product = findProductById(productId, products);
+          if (!product) return;
+      
+          // Get selected options from product detail page if available
+          let selectedSize = 'M'; // default
+          let selectedColor = 'Black'; // default
+          let selectedQuantity = 1;
+      
+          // Check if we're on product detail page
+          const sizeOptions = document.querySelectorAll('.size-option.selected');
+          const colorSelect = document.getElementById('color');
+          const quantityInput = document.getElementById('quantity');
+      
+          if (sizeOptions.length > 0) {
+              selectedSize = sizeOptions[0].textContent;
+          }
+          if (colorSelect) {
+              selectedColor = colorSelect.value;
+          }
+          if (quantityInput) {
+              selectedQuantity = parseInt(quantityInput.value) || 1;
+          }
+      
+          // Create unique item key based on product, size, and color
+          const itemKey = `${productId}-${selectedSize}-${selectedColor}`;
+          const existingItem = cart.find(item => item.itemKey === itemKey);
+      
+          if (existingItem) {
+              existingItem.quantity += selectedQuantity;
+          } else {
+              cart.push({ 
+                  ...product, 
+                  itemKey: itemKey,
+                  selectedSize: selectedSize,
+                  selectedColor: selectedColor,
+                  quantity: selectedQuantity 
+              });
+          }
+      
+          updateCartDisplay();
+          updateCartCount();
+      
+          // Show success message with details
+          showToast(`${product.name} (${selectedSize}, ${selectedColor}) added to cart!`);
+          // toggleCart(); // Show cart modal
+      }
 
         function removeFromCart(itemKey) {
             cart = cart.filter(item => item.itemKey !== itemKey);
@@ -2189,7 +2223,7 @@
                             <span>Size: ${item.selectedSize}</span> • 
                             <span>Color: ${item.selectedColor}</span>
                         </div>
-                        <div class="cart-item-price">$${item.price}</div>
+                        <div class="cart-item-price">₱${item.price}</div>
                         <div class="quantity-controls">
                             <button class="quantity-btn" onclick="updateCartQuantity('${item.itemKey}', ${item.quantity - 1})">-</button>
                             <input type="number" class="quantity-input" value="${item.quantity}" onchange="updateCartQuantity('${item.itemKey}', this.value)">
@@ -2201,7 +2235,7 @@
             `).join('');
             
             const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            cartTotal.innerHTML = `Total: $${total.toFixed(2)}`;
+            cartTotal.innerHTML = `Total: ₱${total.toFixed(2)}`;
             cartTotal.classList.remove('hidden');
             checkoutBtn.classList.remove('hidden');
         }
@@ -2308,6 +2342,15 @@ Order Date: ${new Date().toLocaleDateString()}
             if (event.target === checkoutModal) {
                 checkoutModal.style.display = 'none';
             }
+        }
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            toastMessage.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000); // 2 seconds
         }
     </script>
 <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'977b4fb792c7bc3f',t:'MTc1NjYzMDU1Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
