@@ -866,6 +866,23 @@
             opacity: 1;
             transition: opacity 0.4s;
         }
+        
+        .sold-out-label {
+          position: absolute;
+          top: 12px;
+          left: 12px;
+          background: rgba(0,0,0,0.7);
+          color: #fff;
+          padding: 0.5em 1em;
+          border-radius: 8px;
+          font-size: 1rem;
+          z-index: 2;
+        }
+        
+        .product-image.sold-out {
+          filter: grayscale(100%) brightness(80%);
+          opacity: 0.7;
+        }
 
         /* Responsive Design */
         @media (max-width: 768px) {
@@ -1873,6 +1890,7 @@
                 images: [row["Item Image 1"], row["Item Image 2"], row["Item Image 3"], row["Item Image 4"]]
                         .filter(Boolean),
                 rating: 4.5, // you can later replace with actual rating data if you have it
+                status: row["Item Status"]  || 'Show'
             };
         }
 
@@ -1933,33 +1951,43 @@
 
             // Save globally
             window.products = allProducts;
+            
+            // console.log(allProducts.map(p => p.status));
 
             // Load categories dynamically
-            loadProducts("featured", "featuredProducts", allProducts.filter(p => p.placement.includes("Featured")));
-            loadProducts("men", "menProducts", allProducts.filter(p => p.placement.includes("Men")));
-            loadProducts("women", "womenProducts", allProducts.filter(p => p.placement.includes("Women")));
-            loadProducts("kids", "kidsProducts", allProducts.filter(p => p.placement.includes("Kids")));
-            loadProducts("accessories", "accessoriesProducts", allProducts.filter(p => p.placement.includes("Accessories")));
+            loadProducts("featured", "featuredProducts", allProducts.filter(p => p.placement.includes("Featured") && p.status !== "Remove"));
+            loadProducts("men", "menProducts", allProducts.filter(p => p.placement.includes("Men") && p.status !== "Remove"));
+            loadProducts("women", "womenProducts", allProducts.filter(p => p.placement.includes("Women") && p.status !== "Remove"));
+            loadProducts("kids", "kidsProducts", allProducts.filter(p => p.placement.includes("Kids") && p.status !== "Remove"));
+            loadProducts("accessories", "accessoriesProducts", allProducts.filter(p => p.placement.includes("Accessories") && p.status !== "Remove"));
         });
 
 
         // Load products into grid
         function loadProducts(category, containerId, products) {
             const container = document.getElementById(containerId);
-            container.innerHTML = products.map(product => `
+            container.innerHTML = products.map(product => {
+              if (product.status === "Remove") return ""; // extra safety
+              const isOut = product.status === "Out Of Stock";
+              return `
                 <div class="product-card" onclick="showProductDetail(${product.id})">
-                <img src="${product.images[0] || ''}" alt="${product.name}" class="product-image">
-                <div class="product-info">
+                  <div style="position:relative;">
+                    <img src="${product.images[0] || ''}" alt="${product.name}" 
+                      class="product-image${isOut ? ' sold-out' : ''}">
+                    ${isOut ? '<span class="sold-out-label">Sold Out</span>' : ''}
+                  </div>
+                  <div class="product-info">
                     <h3 class="product-title">${product.name}</h3>
                     <div class="product-rating">
-                    <span class="stars">${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5-Math.floor(product.rating))}</span>
-                    <span>(${product.rating})</span>
+                      <span class="stars">${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5-Math.floor(product.rating))}</span>
+                      <span>(${product.rating})</span>
                     </div>
                     <div class="product-price">₱${product.price}</div>
-                    <button class="btn" onclick="event.stopPropagation(); addToCart(${product.id})">Add to Cart</button>
+                    <button class="btn" onclick="event.stopPropagation(); addToCart(${product.id})" ${isOut ? 'disabled' : ''}>Add to Cart</button>
+                  </div>
                 </div>
-                </div>
-            `).join('');
+              `;
+            }).join('');
         }
 
         // Show different pages
@@ -1980,130 +2008,133 @@
 
         // Show product detail
         function showProductDetail(productId) {
-            const product = findProductById(productId, products);
-            if (!product) return;
-
-            const detailContent = document.getElementById('productDetailContent');
-
-            detailContent.innerHTML = `
-                <div class="product-detail">
-                <div class="product-images">
-                    <img src="${product.images[0] || ''}" alt="${product.name}" class="main-image"
-                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="main-image" style="display: none;">Main Product Image</div>
-                    <div class="thumbnail-images">
-                    ${product.images.map((img, i) => `
-                        <img src="${img}" alt="${product.name} Thumb ${i+1}" class="thumbnail"
-                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                        <div class="thumbnail" style="display: none;">Thumb ${i+1}</div>
-                    `).join('')}
-                    </div>
-                </div>
-
-                <div class="product-details">
-                    <h1>${product.name}</h1>
-                    <div class="product-rating">
-                    <span class="stars">${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5 - Math.floor(product.rating))}</span>
-                    <span>(${product.rating}) • 127 reviews</span>
-                    </div>
-                    <div class="price">₱${product.price.toFixed(2)}</div>
-
-                    <div class="product-options">
-                    <div class="option-group">
-                        <label>Size</label>
-                        <div class="size-options">
-                        ${product.sizes.map((s, i) =>
-                            `<div class="size-option ${i === 0 ? 'selected' : ''}" onclick="selectSize(this)">${s}</div>`
-                        ).join('')}
-                        </div>
-                    </div>
-                    <div class="option-group">
-                        <label for="color">Color</label>
-                        <select id="color" class="form-group input">
-                        ${product.colors.map(c => `<option>${c}</option>`).join('')}
-                        </select>
-                    </div>
-                    </div>
-
-                    <div class="add-to-cart-section">
-                    <div class="quantity-selector">
-                        <label>Quantity:</label>
-                        <button class="quantity-btn" onclick="changeQuantity(-1)">-</button>
-                        <input type="number" id="quantity" class="quantity-input" value="1" min="1">
-                        <button class="quantity-btn" onclick="changeQuantity(1)">+</button>
-                    </div>
-                    <button class="btn" onclick="addToCart(${product.id})">Add to Cart</button>
-                    </div>
-                </div>
-                </div>
-
-                <div class="product-tabs">
-                <div class="tab-buttons">
-                    <button class="tab-button active" onclick="showTab('description')">Description</button>
-                    <button class="tab-button" onclick="showTab('sizing')">Sizing Guide</button>
-                    <button class="tab-button" onclick="showTab('care')">Care Instructions</button>
-                    <button class="tab-button" onclick="showTab('reviews')">Reviews</button>
-                </div>
-
-                <div id="description" class="tab-content active" style="padding: 1.5rem;">
-                    <h3>Product Description</h3>
-                    <p>${product.description}</p>
-                </div>
-
-                <div id="sizing" class="tab-content" style="padding: 1.5rem;">
-                    <h3>Sizing Guide</h3>
-                    ${product.sizes.length
-                    ? `<p>Available sizes: ${product.sizes.join(', ')}</p>`
-                    : `<p>No sizing information available.</p>`}
-                </div>
-
-                <div id="care" class="tab-content" style="padding: 1.5rem;">
-                    <h3>Care Instructions</h3>
-                    <ul>
-                    <li>Machine wash cold with like colors</li>
-                    <li>Use gentle cycle</li>
-                    <li>Do not bleach</li>
-                    <li>Tumble dry low heat</li>
-                    <li>Iron on low temperature if needed</li>
-                    <li>Do not dry clean</li>
-                    </ul>
-                </div>
-
-                <div id="reviews" class="tab-content" style="padding: 1.5rem;">
-                    <h3>Customer Reviews</h3>
-                    <div>
-                    <span class="stars">${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5 - Math.floor(product.rating))}</span>
-                    <span>${product.rating} out of 5 stars (127 reviews)</span>
-                    </div>
-                </div>
-                </div>
-
-                <div class="section">
-                <h3>Related Products</h3>
-                <div class="products-grid">
-                    ${getRelatedProducts(product.category, product.id).map(relatedProduct => `
-                    <div class="product-card" onclick="showProductDetail(${relatedProduct.id})">
-                        <img src="${relatedProduct.images[0] || ''}" alt="${relatedProduct.name}" class="product-image"
-                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                        <div class="product-image" style="display: none;">Product Image</div>
-                        <div class="product-info">
-                        <h3 class="product-title">${relatedProduct.name}</h3>
-                        <div class="product-rating">
-                            <span class="stars">${'★'.repeat(Math.floor(relatedProduct.rating))}${'☆'.repeat(5 - Math.floor(relatedProduct.rating))}</span>
-                            <span>(${relatedProduct.rating})</span>
-                        </div>
-                        <div class="product-price">₱${relatedProduct.price.toFixed(2)}</div>
-                        <button class="btn" onclick="event.stopPropagation(); addToCart(${relatedProduct.id})">Add to Cart</button>
-                        </div>
-                    </div>
-                    `).join('')}
-                </div>
-                </div>
-            `;
-
-            showPage('productDetail');
-            }
-
+          const product = findProductById(productId, products);
+          if (!product) return;
+      
+          const isOut = product.status === "Out Of Stock";
+          const detailContent = document.getElementById('productDetailContent');
+      
+          detailContent.innerHTML = `
+              <div class="product-detail">
+                  <div class="product-images">
+                      <div style="position:relative;">
+                          <img src="${product.images[0] || ''}" alt="${product.name}" class="main-image${isOut ? ' sold-out' : ''}"
+                              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                          <div class="main-image" style="display: none;">Main Product Image</div>
+                          ${isOut ? '<span class="sold-out-label">Sold Out</span>' : ''}
+                      </div>
+                      <div class="thumbnail-images">
+                          ${product.images.map((img, i) => `
+                              <img src="${img}" alt="${product.name} Thumb ${i+1}" class="thumbnail"
+                                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                              <div class="thumbnail" style="display: none;">Thumb ${i+1}</div>
+                          `).join('')}
+                      </div>
+                  </div>
+      
+                  <div class="product-details">
+                      <h1>${product.name}</h1>
+                      <div class="product-rating">
+                          <span class="stars">${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5 - Math.floor(product.rating))}</span>
+                          <span>(${product.rating}) • 127 reviews</span>
+                      </div>
+                      <div class="price">₱${product.price.toFixed(2)}</div>
+      
+                      <div class="product-options">
+                          <div class="option-group">
+                              <label>Size</label>
+                              <div class="size-options">
+                                  ${product.sizes.map((s, i) =>
+                                      `<div class="size-option ${i === 0 ? 'selected' : ''}" onclick="selectSize(this)">${s}</div>`
+                                  ).join('')}
+                              </div>
+                          </div>
+                          <div class="option-group">
+                              <label for="color">Color</label>
+                              <select id="color" class="form-group input">
+                                  ${product.colors.map(c => `<option>${c}</option>`).join('')}
+                              </select>
+                          </div>
+                      </div>
+      
+                      <div class="add-to-cart-section">
+                          <div class="quantity-selector">
+                              <label>Quantity:</label>
+                              <button class="quantity-btn" onclick="changeQuantity(-1)">-</button>
+                              <input type="number" id="quantity" class="quantity-input" value="1" min="1">
+                              <button class="quantity-btn" onclick="changeQuantity(1)">+</button>
+                          </div>
+                          <button class="btn" onclick="addToCart(${product.id})" ${isOut ? 'disabled' : ''}>Add to Cart</button>
+                      </div>
+                  </div>
+              </div>
+      
+              <div class="product-tabs">
+                  <div class="tab-buttons">
+                      <button class="tab-button active" onclick="showTab('description')">Description</button>
+                      <button class="tab-button" onclick="showTab('sizing')">Sizing Guide</button>
+                      <button class="tab-button" onclick="showTab('care')">Care Instructions</button>
+                      <button class="tab-button" onclick="showTab('reviews')">Reviews</button>
+                  </div>
+      
+                  <div id="description" class="tab-content active" style="padding: 1.5rem;">
+                      <h3>Product Description</h3>
+                      <p>${product.description}</p>
+                  </div>
+      
+                  <div id="sizing" class="tab-content" style="padding: 1.5rem;">
+                      <h3>Sizing Guide</h3>
+                      ${product.sizes.length
+                          ? `<p>Available sizes: ${product.sizes.join(', ')}</p>`
+                          : `<p>No sizing information available.</p>`}
+                  </div>
+      
+                  <div id="care" class="tab-content" style="padding: 1.5rem;">
+                      <h3>Care Instructions</h3>
+                      <ul>
+                          <li>Machine wash cold with like colors</li>
+                          <li>Use gentle cycle</li>
+                          <li>Do not bleach</li>
+                          <li>Tumble dry low heat</li>
+                          <li>Iron on low temperature if needed</li>
+                          <li>Do not dry clean</li>
+                      </ul>
+                  </div>
+      
+                  <div id="reviews" class="tab-content" style="padding: 1.5rem;">
+                      <h3>Customer Reviews</h3>
+                      <div>
+                          <span class="stars">${'★'.repeat(Math.floor(product.rating))}${'☆'.repeat(5 - Math.floor(product.rating))}</span>
+                          <span>${product.rating} out of 5 stars (127 reviews)</span>
+                      </div>
+                  </div>
+              </div>
+      
+              <div class="section">
+                  <h3>Related Products</h3>
+                  <div class="products-grid">
+                      ${getRelatedProducts(product.category, product.id).map(relatedProduct => `
+                          <div class="product-card" onclick="showProductDetail(${relatedProduct.id})">
+                              <img src="${relatedProduct.images[0] || ''}" alt="${relatedProduct.name}" class="product-image"
+                                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                              <div class="product-image" style="display: none;">Product Image</div>
+                              <div class="product-info">
+                                  <h3 class="product-title">${relatedProduct.name}</h3>
+                                  <div class="product-rating">
+                                      <span class="stars">${'★'.repeat(Math.floor(relatedProduct.rating))}${'☆'.repeat(5 - Math.floor(relatedProduct.rating))}</span>
+                                      <span>(${relatedProduct.rating})</span>
+                                  </div>
+                                  <div class="product-price">₱${relatedProduct.price.toFixed(2)}</div>
+                                  <button class="btn" onclick="event.stopPropagation(); addToCart(${relatedProduct.id})">Add to Cart</button>
+                              </div>
+                          </div>
+                      `).join('')}
+                  </div>
+              </div>
+          `;
+      
+          showPage('productDetail');
+      }
 
         // Helper functions
         // Use the raw array of products
@@ -2215,7 +2246,7 @@
             
             cartItems.innerHTML = cart.map(item => `
                 <div class="cart-item">
-                    <img src="${item.image}" alt="${item.name}" class="cart-item-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <img src="${item.images && item.images[0] ? item.images[0] : ''}" alt="${item.name}" class="cart-item-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                     <div class="cart-item-image" style="display: none;">Image</div>
                     <div class="cart-item-info">
                         <div class="cart-item-title">${item.name}</div>
@@ -2283,7 +2314,7 @@ Phone: ${phone}
 Order Items:
 ${cart.map(item => `• ${item.name} (Size: ${item.selectedSize}, Color: ${item.selectedColor}) - Qty: ${item.quantity} - $${(item.price * item.quantity).toFixed(2)}`).join('\n')}
 
-Total: $${total.toFixed(2)}
+Total: ₱${total.toFixed(2)}
 
 Order Date: ${new Date().toLocaleDateString()}
             `.trim();
