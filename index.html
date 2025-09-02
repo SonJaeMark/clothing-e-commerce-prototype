@@ -11,6 +11,12 @@
             padding: 0;
             box-sizing: border-box;
         }
+        
+        body, html {
+            overflow-x: hidden;
+            width: 100vw;
+            max-width: 100vw;
+        }
 
         body {
             font-family: 'Arial', sans-serif;
@@ -993,15 +999,15 @@
             }
 
             .products-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 24px;
+                grid-template-columns: 1fr;
+                gap: 1rem;
             }
 
             .product-card {
                 font-size: 0.8rem;
-                width: 180px;
-                min-width: 160px;
-                max-width: 200px;
+                width: 100%;
+                min-width: 0;
+                max-width: 100%;
             }
 
             .product-image {
@@ -2314,7 +2320,7 @@ Phone: ${phone}
 Order Items:
 ${cart.map(item => `• ${item.name} (Size: ${item.selectedSize}, Color: ${item.selectedColor}) - Qty: ${item.quantity} - $${(item.price * item.quantity).toFixed(2)}`).join('\n')}
 
-Total: ₱${total.toFixed(2)}
+Total: $${total.toFixed(2)}
 
 Order Date: ${new Date().toLocaleDateString()}
             `.trim();
